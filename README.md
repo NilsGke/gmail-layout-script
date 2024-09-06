@@ -4,7 +4,7 @@
 
 Script to make split gmail layout toggleble
 
-Download Url: <https://github.com/NilsGke/gmail-layout-scripts/releases/latest/download/index.js>
+Download Url: <https://github.com/NilsGke/gmail-layout-scripts/releases/latest/download/gmail-layout-script.user.js>
 
 ## automated build
 
