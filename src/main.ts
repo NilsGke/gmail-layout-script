@@ -1,6 +1,6 @@
 import "./style.css";
 
-import { trustedTypes } from "trusted-types";
+import { trustedTypes as tt } from "trusted-types";
 import waitForElementExist from "./utils/waitForElementExist";
 import waitForElementChange from "./utils/waitForElementChange";
 import SidebarToggleIcon from "./assets/SidebarToggleIcon.svg";
@@ -11,12 +11,11 @@ const buttonBarSelector =
 
 console.log("> Gmail Fix Layout");
 
-const escapeHTMLPolicy = (window.trustedTypes || trustedTypes).createPolicy(
-  "forceInner",
-  {
-    createHTML: (to_escape) => to_escape,
-  }
-);
+const trustedTypes = window.trustedTypes || tt;
+
+const escapeHTMLPolicy = trustedTypes.createPolicy("forceInner", {
+  createHTML: (to_escape: string) => to_escape,
+});
 
 console.log(escapeHTMLPolicy);
 
