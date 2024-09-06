@@ -1,28 +1,63 @@
-import './style.css';
-import typescriptLogo from './typescript.svg';
-import viteLogo from './vite.svg';
-import { setupCounter } from './counter';
+import "./style.css";
 
-(() => {
-  const app = document.createElement('div');
-  document.body.append(app);
-  return app;
-})().innerHTML = `
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`;
+import { trustedTypes } from "trusted-types";
+import waitForElementExist from "./utils/waitForElementExist";
+import waitForElementChange from "./utils/waitForElementChange";
+import SidebarToggleIcon from "./assets/SidebarToggleIcon.svg";
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!);
+const previewPaneSelector = "#\\:1h";
+const buttonBarSelector =
+  "#\\:1 > div > div.bGI.nH.oy8Mbf.aE3.S4 > div.D.E.G-atb > div.nH.aqK > div.Cr.aqJ";
+
+console.log("> Gmail Fix Layout");
+
+const escapeHTMLPolicy = (window.trustedTypes || trustedTypes).createPolicy(
+  "forceInner",
+  {
+    createHTML: (to_escape) => to_escape,
+  }
+);
+
+console.log(escapeHTMLPolicy);
+
+// show and hide preview pane
+await waitForElementExist(previewPaneSelector).then((previewPane) => {
+  if (previewPane === null)
+    throw Error(
+      "> GMAIL-FIX-LAYOUT: could not find previewPane element - should be there though"
+    );
+
+  // on every children change, check if an email is opened
+  waitForElementChange(previewPane, () => {
+    if (previewPane.innerText.includes("Keine Konversationen ausgewählt"))
+      previewPane.classList.add("previewPaneHidden");
+    else previewPane.classList.remove("previewPaneHidden");
+    previewPane.style.height = "100%";
+  });
+});
+
+// add "close preview button" to top bar
+waitForElementExist(buttonBarSelector).then((buttonBar) => {
+  if (buttonBar === null)
+    throw Error(
+      "> GMAIL-FIX-LAYOUT: could not find buttonBar element - should be there though"
+    );
+
+  const buttonElm = document.createElement("div");
+  buttonElm.id = "toggleSidebarButtonContainer";
+  // @ts-expect-error
+  buttonElm.innerHTML = escapeHTMLPolicy.createHTML(`
+      <button>
+        <img src="${SidebarToggleIcon}" alt="toggleSidebar" title="toggle sidebar"/>
+      </button>
+    `);
+
+  buttonElm.addEventListener("click", () => {
+    const previewPane = document.querySelector(previewPaneSelector);
+    if (previewPane === null)
+      throw Error("> GMAIL-FIX-LAYOUT: could not find previewPane");
+    previewPane.classList.toggle("previewPaneHidden");
+  });
+
+  buttonBar.appendChild(buttonElm);
+});

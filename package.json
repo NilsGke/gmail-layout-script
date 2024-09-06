@@ -6,11 +6,17 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build-and-preview": "bun run build && bun run preview"
   },
   "devDependencies": {
+    "@types/bun": "^1.1.8",
+    "@types/trusted-types": "^2.0.7",
     "typescript": "^5.4.5",
     "vite": "^5.2.12",
     "vite-plugin-monkey": "^4.0.6"
+  },
+  "dependencies": {
+    "trusted-types": "^2.0.0"
   }
 }
