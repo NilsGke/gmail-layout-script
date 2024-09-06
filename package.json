@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "build-and-preview": "bun run build && bun run preview"
+    "build-and-preview": "bun run build && bun run preview",
+    "applyVersion": "mkdir ./dist/versioned && bun run scripts/writeVersionToDist.ts"
   },
   "devDependencies": {
     "@types/bun": "^1.1.8",
