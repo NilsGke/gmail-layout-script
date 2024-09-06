@@ -45,12 +45,12 @@ waitForElementExist(buttonBarSelector).then((buttonBar) => {
 
   const buttonElm = document.createElement("div");
   buttonElm.id = "toggleSidebarButtonContainer";
-  // @ts-expect-error
+
   buttonElm.innerHTML = escapeHTMLPolicy.createHTML(`
       <button>
         <img src="${SidebarToggleIcon}" alt="toggleSidebar" title="toggle sidebar"/>
       </button>
-    `);
+    `) as unknown as string; // need to overwrite type because ts does not know how to assign `safeHTML` to `string`
 
   buttonElm.addEventListener("click", () => {
     const previewPane = document.querySelector(previewPaneSelector);
