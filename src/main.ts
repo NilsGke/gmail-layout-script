@@ -9,7 +9,7 @@ const previewPaneSelector = "#\\:1h";
 const buttonBarSelector =
   "#\\:1 > div > div.bGI.nH.oy8Mbf.aE3.S4 > div.D.E.G-atb > div.nH.aqK > div.Cr.aqJ";
 
-console.log("%c> gmail-fix-layout", "background:purple");
+console.log("%c> GMAIL-FIX-LAYOUT", "background:purple");
 
 const trustedTypes = window.trustedTypes || tt;
 
